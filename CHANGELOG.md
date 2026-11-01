@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.2 — 2026-11-01
+
+- Ready for the Claude plugin directory: a listing icon (`.claude-plugin/icon.png`), a `privacyPolicyUrl`, and a Privacy section in the README (English and Thai) on what the mod reads, sends, keeps and runs.
+- The debugging trace that could write a log file is gone; the mod writes no files.
+- `hooks/sprite.ts` is written one SVG element per line, so it reads as the data it is.
+- README images use Markdown syntax.
+
 ## 0.3.1 — 2026-11-01
 
 - Usage-limit and Monthly-spend bars draw the used part in a clear colour (it was a dark grey that read as the empty part).

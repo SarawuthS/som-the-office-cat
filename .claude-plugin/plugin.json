@@ -1,6 +1,6 @@
 {
   "name": "som-the-office-cat",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "A pixel office cat in a pane beside the chat that acts out what Claude is doing, with live context, usage-limit and cost statistics underneath",
   "author": {
     "name": "SarawuthS",
@@ -72,5 +72,6 @@
       "description": "Extra-usage spend against its cap; off means the usage endpoint is never asked",
       "default": true
     }
-  }
+  },
+  "privacyPolicyUrl": "https://github.com/SarawuthS/som-the-office-cat#privacy"
 }

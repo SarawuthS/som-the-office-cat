@@ -9,9 +9,6 @@ const DONE_MS = 8000
 const WATCH_MS = 2000
 // A main turn with no event for this long is treated as gone (no turn.complete came).
 const STALE_MS = 10 * 60 * 1000
-// Last pose changes, for checking what drove the cat; outside the mod folder so writing it does not reload the mod.
-const TRACE_FILE = '/tmp/som-the-office-cat-trace.log'
-const traceLines: string[] = []
 // What the cat is doing, driven by this session's turn and tool events.
 const pose = atom({ plugin: 'som-the-office-cat', key: 'pose' } as const, 'idle' as Pose, {
   shape: 'pose-1',
@@ -20,16 +17,6 @@ const pose = atom({ plugin: 'som-the-office-cat', key: 'pose' } as const, 'idle'
 // The main turn in progress ('' when none) and when the pose last changed.
 const turn = atom({ plugin: 'som-the-office-cat', key: 'turn' } as const, '', { shape: 'turn-1' })
 const since = atom({ plugin: 'som-the-office-cat', key: 'since' } as const, 0, { shape: 'since-1' })
-
-// Off: it was for finding why the cat stuck on `think`. Set true to log again.
-const TRACE = false
-
-const trace = async ($: EngineInterface, line: string) => {
-  if (!TRACE) return
-  traceLines.push(`${new Date().toISOString()} ${line}`)
-  if (traceLines.length > 60) traceLines.shift()
-  await $.fs.write(TRACE_FILE, traceLines.join('\n') + '\n').catch(() => {})
-}
 
 // The person's choices from the plugin's settings (`userConfig` in
 // plugin.json); `register` reads them again on every reload.
@@ -51,10 +38,9 @@ const settings = (o: PluginOptions) => {
 let cfg = settings({})
 let words: Words = TEXT.en
 
-const setPose = async ($: EngineInterface, p: Pose, why: string) => {
+const setPose = async ($: EngineInterface, p: Pose) => {
   await update($, pose, () => p)
   await update($, since, () => Date.now())
-  await trace($, `${why} -> ${p}`)
 }
 
 // The context window by category, as the app's Context panel shows it. Counted
@@ -84,7 +70,6 @@ async function countContext($: EngineInterface, afterTurn: boolean) {
   await update($, context, () => ({
     percent: b.percentage, tokens: b.totalTokens, window: b.rawMaxTokens, rows, ms, compactAt, delta, limits, costUsd: cost?.usd, spend,
   }))
-  await trace($, `context ${b.percentage}% ${b.totalTokens}/${b.rawMaxTokens} counted in ${ms} ms`)
 }
 
 // The month's extra-usage spend from the account's usage endpoint, through the
@@ -170,9 +155,8 @@ export const register: Register = (on, options) => {
       name: 'som-the-office-cat',
       description: 'Show Som, the office cat, in a pane',
     })
-    await trace($, `session.start surface=${e.surface}`)
-    void countContext($, false).catch(err => trace($, `context failed ${err}`))
-    void $.ui.open({ id: PANE, title: words.title }).then(r => trace($, `ui.open placed=${r.isPlaced}`), err => trace($, `ui.open failed ${err}`))
+    void countContext($, false).catch(() => {})
+    void $.ui.open({ id: PANE, title: words.title }).catch(() => {})
     // Watchdog: back to idle once no main turn is running and `done` has been
     // shown long enough. Survives reloads (a `clock.after` from an old module
     // does not), and catches a turn.start whose turn.complete never comes.
@@ -182,12 +166,10 @@ export const register: Register = (on, options) => {
         const active = await read($, turn)
         const p = await read($, pose)
         if (active !== '' && t - (await read($, since)) > STALE_MS) {
-          await trace($, `watchdog: turn ${active} stale, clearing`)
           await update($, turn, () => '')
         } else if (active !== '') return
         if (p === 'idle') return
         if (p !== 'done' || t - (await read($, since)) >= DONE_MS) {
-          await trace($, `watchdog: ${p} -> idle`)
           await update($, pose, () => 'idle')
         }
       })().catch(() => {})
@@ -196,15 +178,14 @@ export const register: Register = (on, options) => {
   })
 
   on('command.run', { command: 'som-the-office-cat' }, async $ => {
-    const r = await $.ui.open({ id: PANE, title: words.title })
-    await trace($, `command ui.open placed=${r.isPlaced}`)
+    await $.ui.open({ id: PANE, title: words.title })
     return { text: words.opened }
   })
 
   on('turn.start', async ($, e, next) => {
     if (e.agentId === undefined) {
       await update($, turn, () => e.turnId).catch(() => {})
-      await setPose($, 'think', `turn.start ${e.turnId} text=${e.text.length}`).catch(() => {})
+      await setPose($, 'think').catch(() => {})
     }
     return next(e)
   })
@@ -212,12 +193,12 @@ export const register: Register = (on, options) => {
   on('tool.call', async ($, e, next) => {
     if (e.agentId !== undefined) return next(e)
     // Never let the animation get in the way of the tool call itself.
-    await setPose($, toolPose(e.tool), `tool.call ${e.tool}`).catch(() => {})
+    await setPose($, toolPose(e.tool)).catch(() => {})
     try {
       return await next(e)
     } finally {
       if ((await read($, turn).catch(() => '')) !== '') {
-        await setPose($, 'think', `tool.done ${e.tool}`).catch(() => {})
+        await setPose($, 'think').catch(() => {})
       }
     }
   })
@@ -225,8 +206,8 @@ export const register: Register = (on, options) => {
   on('turn.complete', async ($, e, next) => {
     if (e.agentId === undefined) {
       await update($, turn, () => '').catch(() => {})
-      await setPose($, 'done', `turn.complete ${e.turnId} ${e.reason}`).catch(() => {})
-      void countContext($, true).catch(err => trace($, `context failed ${err}`))
+      await setPose($, 'done').catch(() => {})
+      void countContext($, true).catch(() => {})
     }
     return next(e)
   })

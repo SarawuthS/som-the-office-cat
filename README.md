@@ -1,6 +1,6 @@
 # Som the office cat
 
-[![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) [![version 0.3.1](https://img.shields.io/badge/version-0.3.1-orange.svg)](CHANGELOG.md) [![Claude Code mod](https://img.shields.io/badge/Claude%20Code-mod-d97757.svg)](#install) [ภาษาไทย](#ส้ม-แมวออฟฟิศ-ภาษาไทย)
+[![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) [![version 0.3.2](https://img.shields.io/badge/version-0.3.2-orange.svg)](CHANGELOG.md) [![Claude Code mod](https://img.shields.io/badge/Claude%20Code-mod-d97757.svg)](#install) [ภาษาไทย](#ส้ม-แมวออฟฟิศ-ภาษาไทย)
 
 A Claude Code mod: a pane beside the chat where Som, a pixel office cat in glasses, acts out what Claude is doing, with your session's context, usage limits and cost underneath.
 
@@ -97,6 +97,15 @@ Keep the picture's total SVG small: the build prints `pane total chars`, and aro
 - **No Monthly spend.** It needs a first-party sign-in with extra usage turned on, and appears after the first turn ends. Bedrock, Vertex and gateway logins never show it.
 
 Notes from building it, in case you change the pane: Box sizes are character cells, not pixels; the pane accepts only whole-number `%` widths and `flexGrow` up to 10000, and one refused prop drops the whole pane; keep the total SVG markup small (about 110k characters draws, 430k did not); changing an interactive `Svg`'s `source` reloads its frame and flickers, so every pose stays mounted and only `display` changes; layers must centre in the same row or they drift apart.
+
+## Privacy
+
+What the mod does on your machine, all of it in `hooks/register.tsx`:
+
+- **Reads** this session's own usage figures from Claude Code (`$.session.usage`: context size by category, rate limits, session cost) and the names of the tools Claude calls, to pick Som's pose. It does not read your messages, files or tool inputs.
+- **Sends** one request when a session starts and each time a turn ends: `GET https://api.anthropic.com/api/oauth/usage`, through Claude Code's own sign-in (`$.session.authorize` and `$.http.fetch`; the mod never sees the credential). The request carries nothing from your session; the answer's `spend` figure becomes Monthly spend. Turn **Show monthly spend** off and the request is never made.
+- **Keeps** the figures in the session's state only, for drawing the pane. Nothing is written to disk and nothing is sent anywhere else.
+- **Runs** no commands, processes or tools. It registers one slash command, `/som-the-office-cat`, which opens the pane. Its `tool.call` hook only notes the tool's name and always passes the call on unchanged.
 
 ## License
 
@@ -197,6 +206,15 @@ SVG รวมควรเล็ก: ตอนสร้างจะพิมพ�
 - **ไม่มี Monthly spend:** ต้อง sign-in กับ Anthropic โดยตรงและเปิด extra usage ไว้ และจะขึ้นหลัง turn แรกจบ ถ้า login ผ่าน Bedrock, Vertex หรือ gateway จะไม่แสดง
 
 ข้อควรรู้ถ้าจะแก้ pane: ขนาดของ Box นับเป็นช่องตัวอักษร ไม่ใช่ pixel; pane รับความกว้างแบบ `%` เฉพาะจำนวนเต็ม และ `flexGrow` ไม่เกิน 10000 ถ้ามี prop ใดถูกปฏิเสธ pane จะไม่วาดทั้งหมด; ขนาด SVG รวมควรเล็ก (ราว 110k ตัวอักษรวาดได้ แต่ 430k ไม่ได้); การเปลี่ยน `source` ของ `Svg` แบบ interactive ทำให้ frame โหลดใหม่และกะพริบ จึงวาดทุกท่าค้างไว้แล้วสลับแค่ `display`; ทุกชั้นภาพต้องจัดกึ่งกลางในแถวเดียวกัน ไม่อย่างนั้นจะเหลื่อมกัน
+
+## ความเป็นส่วนตัว
+
+สิ่งที่ mod ทำบนเครื่องของคุณ ทั้งหมดอยู่ใน `hooks/register.tsx`:
+
+- **อ่าน** สถิติการใช้งานของ session นี้จาก Claude Code (`$.session.usage`: ขนาด context แยกหมวด, ขีดจำกัดการใช้งาน, ค่าใช้จ่าย session) และชื่อ tool ที่ Claude เรียก เพื่อเลือกท่าของส้ม ไม่อ่านข้อความ ไฟล์ หรือ input ของ tool
+- **ส่ง** คำขอหนึ่งครั้งตอนเริ่ม session และทุกครั้งที่ turn จบ: `GET https://api.anthropic.com/api/oauth/usage` ผ่านการ sign-in ของ Claude Code เอง (`$.session.authorize` และ `$.http.fetch` โดยที่ mod ไม่เห็น credential) คำขอนี้ไม่มีข้อมูลจาก session ของคุณ ค่า `spend` ในคำตอบใช้แสดงเป็น Monthly spend ถ้าปิด **Show monthly spend** จะไม่มีคำขอนี้เลย
+- **เก็บ** ตัวเลขไว้ใน state ของ session เท่านั้นเพื่อวาด pane ไม่เขียนอะไรลงดิสก์ และไม่ส่งข้อมูลไปที่อื่น
+- **รัน** ไม่มีคำสั่ง process หรือ tool ใดๆ มีแค่ลงทะเบียน slash command หนึ่งตัวคือ `/som-the-office-cat` เพื่อเปิด pane ส่วน hook `tool.call` แค่ดูชื่อ tool แล้วส่งคำสั่งต่อไปโดยไม่แก้ไขเสมอ
 
 ## License
 
