@@ -1,6 +1,6 @@
 {
   "name": "som-the-office-cat",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "A pixel office cat in a pane beside the chat that acts out what Claude is doing, with live context, usage-limit and cost statistics underneath",
   "author": {
     "name": "SarawuthS",

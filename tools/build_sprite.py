@@ -56,7 +56,7 @@ def base_paths():
             x += w
     # One element per line: the file is data, and reads as such.
     return '\n'.join(
-        f'<path fill=""#{pal[3*c]:02x}{pal[3*c+1]:02x}{pal[3*c+2]:02x}" d="{"".join(d)}"/>'
+        f'<path fill="#{pal[3*c]:02x}{pal[3*c+1]:02x}{pal[3*c+2]:02x}" d="{"".join(d)}"/>'
         for c, d in paths.items()
     )
 
@@ -311,6 +311,10 @@ def main():
     full = lambda k: base + (working if k in WORKING_POSES else '') + POSES[k] + COMMON
     sizes = {'base': len(wrap(base)), 'working': len(wrap(working)), 'alarm': len(wrap(ALARM)),
              **{k: len(wrap(v + COMMON)) for k, v in POSES.items()}}
+    # Every layer must be well-formed SVG: a broken attribute draws black or nothing.
+    from xml.etree import ElementTree
+    for name, body in [('base', base), ('working', working), ('alarm', ALARM), *[(k, v + COMMON) for k, v in POSES.items()]]:
+        ElementTree.fromstring(wrap(body))
     print('wrote', out, 'pane total chars', sum(sizes.values()), sizes)
     if '--debug' in sys.argv:
         d = sys.argv[sys.argv.index('--debug') + 1]

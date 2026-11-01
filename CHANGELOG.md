@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.3 — 2026-11-01
+
+- Fix: 0.3.2 drew Som as a black silhouette (a doubled quote in every colour of the picture). The build now checks each layer is well-formed SVG, and a test checks the attributes.
+
 ## 0.3.2 — 2026-11-01
 
 - Ready for the Claude plugin directory: a listing icon (`.claude-plugin/icon.png`), a `privacyPolicyUrl`, and a Privacy section in the README (English and Thai) on what the mod reads, sends, keeps and runs.

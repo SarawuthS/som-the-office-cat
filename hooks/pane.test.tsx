@@ -1,4 +1,5 @@
 import { expect, test } from 'claude-code/testing'
+import { alarm, base, overlay, working } from './sprite'
 
 const PANE = {
   plugin: 'som-the-office-cat',
@@ -89,4 +90,12 @@ test('catAlarm off keeps the alarm hidden', { options: { catAlarm: false } }, as
   const ui = await $.ui.mount({ ...PANE, surface: 'desktop' })
   expect((await ui.find({ type: 'Box', key: 'layer-alarm' }))?.props.display).toBe('none')
   await ui.unmount()
+})
+
+test('every sprite layer has well-formed attributes', () => {
+  // 0.3.2 shipped fill=""#010101": every colour was lost and the cat drew black.
+  for (const svg of [base, working, alarm, ...(['idle', 'think', 'read', 'edit', 'bash', 'delegate', 'done'] as const).map(overlay)]) {
+    expect(svg).not.toMatch(/=""[^\s/>]/)
+    expect(svg).toMatch(/<path fill="#[0-9a-f]{6}"|<rect /)
+  }
 })

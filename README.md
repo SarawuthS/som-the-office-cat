@@ -1,6 +1,6 @@
 # Som the office cat
 
-[![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) [![version 0.3.2](https://img.shields.io/badge/version-0.3.2-orange.svg)](CHANGELOG.md) [![Claude Code mod](https://img.shields.io/badge/Claude%20Code-mod-d97757.svg)](#install) [ภาษาไทย](#ส้ม-แมวออฟฟิศ-ภาษาไทย)
+[![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) [![version 0.3.3](https://img.shields.io/badge/version-0.3.3-orange.svg)](CHANGELOG.md) [![Claude Code mod](https://img.shields.io/badge/Claude%20Code-mod-d97757.svg)](#install) [ภาษาไทย](#ส้ม-แมวออฟฟิศ-ภาษาไทย)
 
 A Claude Code mod: a pane beside the chat where Som, a pixel office cat in glasses, acts out what Claude is doing, with your session's context, usage limits and cost underneath.
 
