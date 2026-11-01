@@ -1,6 +1,6 @@
 {
   "name": "som-the-office-cat",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "A pixel office cat in a pane beside the chat that acts out what Claude is doing, with live context, usage-limit and cost statistics underneath",
   "author": {
     "name": "SarawuthS",
@@ -23,7 +23,7 @@
     "language": {
       "type": "string",
       "title": "Language",
-      "description": "Language of the pane's text: en (English) or th (ภาษาไทย)",
+      "description": "Language of the pane's text: en (English, the default) or th (ภาษาไทย)",
       "options": [
         "en",
         "th"
@@ -33,13 +33,13 @@
     "warnAt": {
       "type": "number",
       "title": "Amber at %",
-      "description": "Context, usage-limit or spend % at which a figure turns amber",
+      "description": "Context, usage-limit or spend % at which a figure turns amber (empty = 70)",
       "default": 70
     },
     "alarmAt": {
       "type": "number",
       "title": "Red at %",
-      "description": "% at which a figure turns red, and the cat sweats when context reaches it",
+      "description": "% at which a figure turns red, and the cat sweats when context reaches it (empty = 85)",
       "default": 85
     },
     "catAlarm": {

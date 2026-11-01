@@ -1,6 +1,6 @@
 # Som the office cat
 
-[![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) [![version 0.3.0](https://img.shields.io/badge/version-0.3.0-orange.svg)](CHANGELOG.md) [![Claude Code mod](https://img.shields.io/badge/Claude%20Code-mod-d97757.svg)](#install) [ภาษาไทย](#ส้ม-แมวออฟฟิศ-ภาษาไทย)
+[![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) [![version 0.3.1](https://img.shields.io/badge/version-0.3.1-orange.svg)](CHANGELOG.md) [![Claude Code mod](https://img.shields.io/badge/Claude%20Code-mod-d97757.svg)](#install) [ภาษาไทย](#ส้ม-แมวออฟฟิศ-ภาษาไทย)
 
 A Claude Code mod: a pane beside the chat where Som, a pixel office cat in glasses, acts out what Claude is doing, with your session's context, usage limits and cost underneath.
 
@@ -30,7 +30,7 @@ The picture needs the Claude desktop app (or another surface that draws SVG); in
 
 ## Settings
 
-Set when you install, in `/config` (one row per setting), or in `settings.json` under `pluginConfigs["som-the-office-cat"].options`. A change reloads the mod.
+In the desktop app: **Settings → Your plugins → Som the office cat → Settings**. Anywhere else: `settings.json` under `pluginConfigs["som-the-office-cat"].options`. New values apply to sessions started after the change.
 
 | Setting | Default | What it does |
 |---|---|---|
@@ -134,7 +134,7 @@ mod สำหรับ Claude Code: pane ข้างแชทที่มี "�
 
 ## ตั้งค่า
 
-ตั้งได้ตอนติดตั้ง, ใน `/config` (หนึ่งแถวต่อหนึ่งค่า) หรือใน `settings.json` ที่ `pluginConfigs["som-the-office-cat"].options` เมื่อเปลี่ยนค่า mod จะโหลดใหม่เอง
+ในแอป Desktop: **Settings → Your plugins → Som the office cat → แท็บ Settings** ที่อื่นตั้งใน `settings.json` ที่ `pluginConfigs["som-the-office-cat"].options` ค่าใหม่จะใช้กับ session ที่เริ่มหลังจากเปลี่ยน
 
 | ค่า | ค่าเริ่มต้น | ใช้ทำอะไร |
 |---|---|---|

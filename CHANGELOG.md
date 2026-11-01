@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.1 — 2026-11-01
+
+- Usage-limit and Monthly-spend bars draw the used part in a clear colour (it was a dark grey that read as the empty part).
+- Settings descriptions name the defaults the number fields fall back to when left empty.
+- README: where the settings are in the desktop app, and that they apply to new sessions.
+
 ## 0.3.0 — 2026-11-01
 
 - **Settings** (`userConfig`): pane language, amber/red thresholds, the cat's alarm, and which sections show. Turning Monthly spend off stops the usage endpoint being asked.

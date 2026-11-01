@@ -330,7 +330,7 @@ export const register: Register = (on, options) => {
                     </Box>
                     <Box flexDirection="row" width="100%" height={1}>
                       <Box width={0} height={1} flexGrow={Math.max(0, Math.min(1000, Math.round(l.percent * 10)))}
-                        backgroundColor={level(l.percent) ?? 'promptBorder'} />
+                        backgroundColor={level(l.percent) ?? 'suggestion'} />
                       <Box width={0} height={1} flexGrow={Math.max(0, 1000 - Math.round(l.percent * 10))} backgroundColor="inactive" />
                     </Box>
                   </Box>
@@ -362,7 +362,7 @@ export const register: Register = (on, options) => {
                 </Box>
                 <Box flexDirection="row" width="100%" height={1} marginTop={1}>
                   <Box width={0} height={1} flexGrow={Math.max(0, Math.min(1000, Math.round(ctx.spend.percent * 10)))}
-                    backgroundColor={level(ctx.spend.percent) ?? 'promptBorder'} />
+                    backgroundColor={level(ctx.spend.percent) ?? 'suggestion'} />
                   <Box width={0} height={1} flexGrow={Math.max(0, 1000 - Math.round(ctx.spend.percent * 10))} backgroundColor="inactive" />
                 </Box>
               </Box>
