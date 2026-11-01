@@ -11,7 +11,12 @@ export type ContextStats = {
   // Change in context tokens over the last main turn; absent until one ends.
   delta?: number
   limits: UsageLimit[]
+  // US dollars this session has cost so far; absent where the host keeps no ledger.
+  costUsd?: number
+  // This month's extra-usage spend against its cap; absent when the account reports none.
+  spend?: MonthlySpend
 }
+export type MonthlySpend = { used: number; limit: number; percent: number; currency: string }
 export type Pose = 'idle' | 'think' | 'read' | 'edit' | 'bash' | 'done'
 
 declare module 'claude-code' {

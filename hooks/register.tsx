@@ -1,6 +1,6 @@
 import { atom, read, update } from 'claude-code'
 import type { EngineInterface, Register } from 'claude-code'
-import type { ContextStats, Pose } from '../types'
+import type { ContextStats, MonthlySpend, Pose } from '../types'
 import { base, isWorking, overlay, working } from './sprite'
 
 const PANE = 'som-the-office-cat'
@@ -11,7 +11,6 @@ const STALE_MS = 10 * 60 * 1000
 // Last pose changes, for checking what drove the cat; outside the mod folder so writing it does not reload the mod.
 const TRACE_FILE = '/tmp/som-the-office-cat-trace.log'
 const traceLines: string[] = []
-
 // What the cat is doing, driven by this session's turn and tool events.
 const pose = atom({ plugin: 'som-the-office-cat', key: 'pose' } as const, 'idle' as Pose, {
   shape: 'pose-1',
@@ -41,12 +40,12 @@ const setPose = async ($: EngineInterface, p: Pose, why: string) => {
 // with the local estimate (`summary`: no API request, no model tokens) when a
 // main turn ends and at session start, and kept in state so drawing reads it.
 const context = atom({ plugin: 'som-the-office-cat', key: 'context' } as const, null as ContextStats | null, {
-  shape: 'context-2',
+  shape: 'context-4',
 })
 
 async function countContext($: EngineInterface, afterTurn: boolean) {
   const t0 = Date.now()
-  const { context: c, rateLimits } = await $.session.usage({ breakdown: 'summary' })
+  const { context: c, rateLimits, cost } = await $.session.usage({ breakdown: 'summary' })
   const b = c.breakdown
   if (b === undefined) return
   const rows = b.categories.flatMap(r => (r.kind === 'deferred' || r.tokens <= 0 ? [] : [{ name: r.name, color: r.color, tokens: r.tokens, kind: r.kind }]))
@@ -58,10 +57,39 @@ async function countContext($: EngineInterface, afterTurn: boolean) {
   const delta = afterTurn && prev !== null ? b.totalTokens - prev.tokens : prev?.delta
   const limits = rateLimits.map(l => ({ kind: l.kind, percent: l.percentUsed, resetsAt: l.resetsAt }))
   const compactAt = b.isAutoCompactEnabled ? b.autoCompactThreshold : undefined
+  // A failed or empty answer keeps the last figure rather than blanking the row.
+  const spend = (await fetchSpend($).catch(() => undefined)) ?? prev?.spend
   await update($, context, () => ({
-    percent: b.percentage, tokens: b.totalTokens, window: b.rawMaxTokens, rows, ms, compactAt, delta, limits,
+    percent: b.percentage, tokens: b.totalTokens, window: b.rawMaxTokens, rows, ms, compactAt, delta, limits, costUsd: cost?.usd, spend,
   }))
   await trace($, `context ${b.percentage}% ${b.totalTokens}/${b.rawMaxTokens} counted in ${ms} ms`)
+}
+
+// The month's extra-usage spend from the account's usage endpoint, through the
+// host (the credential never reaches the mod). Undefined when it answers
+// nothing usable (no first-party login, not enabled, a changed shape).
+async function fetchSpend($: EngineInterface): Promise<MonthlySpend | undefined> {
+  const a = await $.session.authorize()
+  if (a === null) return undefined
+  const r = await $.http.fetch('https://api.anthropic.com/api/oauth/usage', {
+    auth: a.handle,
+    headers: { 'anthropic-beta': 'oauth-2025-04-20' },
+  })
+  if (!r.ok) return undefined
+  const s = (JSON.parse(r.text) as { spend?: SpendBody | null }).spend
+  if (!s || !s.enabled || !s.used || !s.limit) return undefined
+  return {
+    used: s.used.amount_minor / 10 ** s.used.exponent,
+    limit: s.limit.amount_minor / 10 ** s.limit.exponent,
+    percent: s.percent,
+    currency: s.used.currency,
+  }
+}
+type SpendBody = {
+  enabled: boolean
+  percent: number
+  used?: { amount_minor: number; currency: string; exponent: number }
+  limit?: { amount_minor: number; exponent: number }
 }
 
 const fmt = (n: number) =>
@@ -272,6 +300,27 @@ export const register: Register = on => {
                     </Box>
                   </Box>
                 ))}
+              </Box>
+            )}
+            {ctx.costUsd !== undefined && (
+              <Box flexDirection="row" justifyContent="space-between" marginTop={1}>
+                <Text bold>Session cost</Text>
+                <Text>${ctx.costUsd.toFixed(2)}</Text>
+              </Box>
+            )}
+            {ctx.spend !== undefined && (
+              <Box flexDirection="column" marginTop={1}>
+                <Box flexDirection="row" justifyContent="space-between">
+                  <Text bold color={level(ctx.spend.percent)}>Monthly spend</Text>
+                  <Text>
+                    ${ctx.spend.used.toFixed(2)} / ${ctx.spend.limit.toFixed(2)} ({ctx.spend.percent}%)
+                  </Text>
+                </Box>
+                <Box flexDirection="row" width="100%" height={1} marginTop={1}>
+                  <Box width={0} height={1} flexGrow={Math.max(0, Math.min(1000, Math.round(ctx.spend.percent * 10)))}
+                    backgroundColor={level(ctx.spend.percent) ?? 'promptBorder'} />
+                  <Box width={0} height={1} flexGrow={Math.max(0, 1000 - Math.round(ctx.spend.percent * 10))} backgroundColor="inactive" />
+                </Box>
               </Box>
             )}
             <Text size="caption" dimColor>

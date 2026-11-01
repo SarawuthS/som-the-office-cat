@@ -9,8 +9,10 @@ A Claude Code mod: a pane beside the chat where Som, a pixel office cat in glass
 - **Som's poses** follow the session: `think` (thought bubble), `read` (magnifier, for Read/Grep/Glob/WebFetch/WebSearch), `edit` (keys and code light up, for Edit/Write), `bash` (terminal on the tablet), `done` (happy eyes and sparkles for 8 s after a turn ends), then `idle`. While working Som looks at the monitor, types and moves the mouse. Som blinks and the coffee steams in every pose.
 - **Context:** % of the window used, tokens / window, a bar that stretches with the pane (each category in its colour, the autocompact buffer, free space), tokens added by the last turn, distance to auto-compact, and one row per category. The header turns amber at 70 % and red at 85 %.
 - **Usage limits** (subscription accounts): 5-hour and 7-day % with reset times. Hidden when your account reports none.
+- **Session cost:** what this session has cost so far in US dollars, as Claude Code counts it. Hidden where the host keeps no figure.
+- **Monthly spend** (accounts with extra usage, e.g. Team or Enterprise): this month's spend against its cap, with a bar. Hidden when your account reports none.
 
-The figures are a local estimate (no API request, no model tokens), refreshed at session start and whenever a turn ends. The mod reads nothing but the session's own usage figures and sends nothing anywhere.
+The context figures and session cost are a local estimate (no model tokens), refreshed at session start and whenever a turn ends. For Monthly spend the mod asks Claude's own usage endpoint (`api.anthropic.com/api/oauth/usage`) at the same moments, through Claude Code's sign-in: the mod never sees your credential, and it sends nothing else anywhere. That endpoint is not documented and could change; when it answers nothing usable (no first-party sign-in, such as Bedrock, Vertex or a gateway, extra usage off, or a changed answer), the row is not drawn.
 
 The picture needs the Claude desktop app (or another surface that draws SVG); in a terminal the pane shows the statistics only.
 
@@ -61,8 +63,10 @@ mod สำหรับ Claude Code: pane ข้างแชทที่มี "�
 - **ท่าของส้ม** เปลี่ยนตาม session: `think` (ฟองความคิด), `read` (แว่นขยาย เมื่อใช้ Read/Grep/Glob/WebFetch/WebSearch), `edit` (คีย์บอร์ดกับโค้ดสว่างขึ้น เมื่อใช้ Edit/Write), `bash` (จอ terminal บนแท็บเล็ต), `done` (ยิ้มตาปิดพร้อมประกายดาว 8 วินาทีหลังจบ turn) แล้วกลับเป็น `idle` ระหว่างทำงานส้มจะมองจอ พิมพ์คีย์บอร์ด และเลื่อนเมาส์ ทุกท่าส้มกะพริบตาและมีไอลอยจากแก้วกาแฟ
 - **Context:** % ที่ใช้ไปของ context, จำนวน token เทียบทั้งหมด, แถบที่ยืดตามความกว้างของ pane (แต่ละหมวดตามสี, autocompact buffer, พื้นที่ว่าง), token ที่เพิ่มในรอบล่าสุด, ระยะที่เหลือก่อน auto-compact และตารางแยกตามหมวด หัวข้อเปลี่ยนเป็นสีเหลืองที่ 70% และสีแดงที่ 85%
 - **Usage limits** (บัญชีแบบ subscription): % ที่ใช้ไปของรอบ 5 ชั่วโมงและ 7 วัน พร้อมเวลารีเซ็ต ถ้าบัญชีไม่มีข้อมูลนี้ส่วนนี้จะถูกซ่อน
+- **Session cost:** ค่าใช้จ่ายของ session นี้จนถึงตอนนี้เป็นดอลลาร์สหรัฐ ตามที่ Claude Code นับ ถ้าไม่มีตัวเลขนี้จะถูกซ่อน
+- **Monthly spend** (บัญชีที่เปิด extra usage เช่น Team หรือ Enterprise): ยอดใช้จ่ายของเดือนนี้เทียบกับวงเงิน พร้อมแถบแสดง ถ้าบัญชีไม่มีข้อมูลนี้จะถูกซ่อน
 
-ตัวเลขเป็นค่าประมาณที่คำนวณในเครื่อง (ไม่เรียก API และไม่ใช้ token ของโมเดล) อัปเดตตอนเริ่ม session และทุกครั้งที่ turn จบ mod อ่านเฉพาะสถิติการใช้งานของ session เอง และไม่ส่งข้อมูลไปที่ไหน
+สถิติ context และ Session cost เป็นค่าประมาณที่คำนวณในเครื่อง (ไม่ใช้ token ของโมเดล) อัปเดตตอนเริ่ม session และทุกครั้งที่ turn จบ ส่วน Monthly spend นั้น mod จะถาม endpoint การใช้งานของ Claude เอง (`api.anthropic.com/api/oauth/usage`) ในจังหวะเดียวกัน ผ่านการ sign-in ของ Claude Code โดยที่ mod ไม่เห็น credential ของคุณ และไม่ส่งข้อมูลอื่นไปที่ไหน endpoint นี้ไม่มีในเอกสารและอาจเปลี่ยนได้ ถ้าตอบกลับมาใช้ไม่ได้ (ไม่ได้ sign-in กับ Anthropic โดยตรง เช่น ใช้ Bedrock, Vertex หรือ gateway, ไม่ได้เปิด extra usage หรือรูปแบบคำตอบเปลี่ยน) แถวนี้จะไม่แสดง
 
 ภาพแมวต้องใช้แอป Claude Desktop (หรือ surface อื่นที่วาด SVG ได้) ใน terminal จะเห็นเฉพาะสถิติ
 
