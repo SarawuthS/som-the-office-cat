@@ -1,5 +1,6 @@
 {
   "name": "som-the-office-cat",
   "owner": { "name": "SarawuthS" },
+  "description": "Som the office cat: a Claude Code pane with a pixel cat and live context statistics",
   "plugins": [{ "name": "som-the-office-cat", "source": "./" }]
 }

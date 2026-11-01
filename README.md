@@ -1,8 +1,20 @@
 # Som the office cat
 
-A Claude Code mod: a pane beside the chat where Som, a pixel office cat in glasses, acts out what Claude is doing, with your session's context statistics underneath.
+[![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) [![version 0.2.0](https://img.shields.io/badge/version-0.2.0-orange.svg)](CHANGELOG.md) [![Claude Code mod](https://img.shields.io/badge/Claude%20Code-mod-d97757.svg)](#install) [ภาษาไทย](#ส้ม-แมวออฟฟิศ-ภาษาไทย)
 
-<img src="assets/screenshot.png" alt="Som the office cat in the Claude desktop app, with context statistics and usage limits" width="320">
+A Claude Code mod: a pane beside the chat where Som, a pixel office cat in glasses, acts out what Claude is doing, with your session's context, usage limits and cost underneath.
+
+<p>
+<img src="assets/demo.gif" alt="Som the office cat going through its poses: idle, thinking, reading files, editing code, running a command, done" width="256">
+&nbsp;
+<img src="assets/screenshot.png" alt="Som the office cat in the Claude desktop app, with context statistics and usage limits" width="256">
+</p>
+
+```
+/plugin install som-the-office-cat --marketplace SarawuthS/som-the-office-cat
+```
+
+Tried on a subscription account (macOS) and an Enterprise account (Windows). Details in [Install](#install).
 
 ## What it shows
 
@@ -39,6 +51,7 @@ The pane opens when a session starts; if it does not, type `/som-the-office-cat`
 - `hooks/register.tsx` — hooks, state and the pane. `types/index.d.ts` — the state contract.
 - `hooks/sprite.ts` — generated SVG layers. Regenerate from `assets/office-cat.png` with `python3 tools/build_sprite.py [--debug <dir>]` (needs Pillow); change the overlays in the script, not `sprite.ts`.
 - `hooks/pane.test.tsx` — mounts the pane on every surface with seeded statistics.
+- `tools/make_demo_gif.py` — renders `assets/demo.gif` from the same layers the pane draws (needs Pillow and Playwright).
 - `assets/office-cat.png` — Som's original picture, made with an AI image tool.
 
 ```
@@ -50,13 +63,23 @@ Run a working copy with `claude --plugin-dir <this folder>`.
 
 Notes from building it, in case you change the pane: Box sizes are character cells, not pixels; the pane accepts only whole-number `%` widths and `flexGrow` up to 10000, and one refused prop drops the whole pane; keep the total SVG markup small (about 110k characters draws, 430k did not); changing an interactive `Svg`'s `source` reloads its frame and flickers, so every pose stays mounted and only `display` changes; layers must centre in the same row or they drift apart.
 
+## License
+
+MIT, for the code and for Som's picture alike. See [LICENSE](LICENSE). Changes are listed in [CHANGELOG.md](CHANGELOG.md).
+
 ---
 
 # ส้ม แมวออฟฟิศ (ภาษาไทย)
 
-mod สำหรับ Claude Code: pane ข้างแชทที่มี "ส้ม" แมวออฟฟิศพิกเซลใส่แว่น ขยับท่าตามสิ่งที่ Claude กำลังทำ และแสดงสถิติ context ของ session ไว้ด้านล่าง
+mod สำหรับ Claude Code: pane ข้างแชทที่มี "ส้ม" แมวออฟฟิศพิกเซลใส่แว่น ขยับท่าตามสิ่งที่ Claude กำลังทำ และแสดงสถิติ context, usage limits และค่าใช้จ่ายของ session ไว้ด้านล่าง
 
-<img src="assets/screenshot.png" alt="ส้ม แมวออฟฟิศ ในแอป Claude Desktop พร้อมสถิติ context และ usage limits" width="320">
+<p>
+<img src="assets/demo.gif" alt="ส้ม แมวออฟฟิศ เปลี่ยนท่า: idle, คิด, อ่านไฟล์, แก้โค้ด, รันคำสั่ง, เสร็จ" width="256">
+&nbsp;
+<img src="assets/screenshot.png" alt="ส้ม แมวออฟฟิศ ในแอป Claude Desktop พร้อมสถิติ context และ usage limits" width="256">
+</p>
+
+ทดสอบแล้วกับบัญชี subscription (macOS) และบัญชี Enterprise (Windows)
 
 ## สิ่งที่แสดง
 
@@ -93,6 +116,7 @@ pane จะเปิดเองเมื่อเริ่ม session ถ้า
 - `hooks/register.tsx`: hook, state และการวาด pane ส่วน `types/index.d.ts` คือ contract ของ state
 - `hooks/sprite.ts`: ชั้นภาพ SVG ที่สร้างอัตโนมัติ สร้างใหม่จาก `assets/office-cat.png` ด้วย `python3 tools/build_sprite.py [--debug <dir>]` (ต้องมี Pillow) ถ้าจะแก้ท่า ให้แก้ในสคริปต์ ไม่ใช่ใน `sprite.ts`
 - `hooks/pane.test.tsx`: วาด pane บนทุก surface ด้วยสถิติจำลอง
+- `tools/make_demo_gif.py`: สร้าง `assets/demo.gif` จากชั้นภาพชุดเดียวกับที่ pane วาด (ต้องมี Pillow และ Playwright)
 - `assets/office-cat.png`: ภาพต้นฉบับของส้ม สร้างด้วยเครื่องมือสร้างภาพ AI
 
 ```
@@ -103,3 +127,7 @@ claude plugin test .
 รันสำเนาที่กำลังแก้ด้วย `claude --plugin-dir <โฟลเดอร์นี้>`
 
 ข้อควรรู้ถ้าจะแก้ pane: ขนาดของ Box นับเป็นช่องตัวอักษร ไม่ใช่ pixel; pane รับความกว้างแบบ `%` เฉพาะจำนวนเต็ม และ `flexGrow` ไม่เกิน 10000 ถ้ามี prop ใดถูกปฏิเสธ pane จะไม่วาดทั้งหมด; ขนาด SVG รวมควรเล็ก (ราว 110k ตัวอักษรวาดได้ แต่ 430k ไม่ได้); การเปลี่ยน `source` ของ `Svg` แบบ interactive ทำให้ frame โหลดใหม่และกะพริบ จึงวาดทุกท่าค้างไว้แล้วสลับแค่ `display`; ทุกชั้นภาพต้องจัดกึ่งกลางในแถวเดียวกัน ไม่อย่างนั้นจะเหลื่อมกัน
+
+## License
+
+MIT ทั้งโค้ดและภาพของส้ม ดู [LICENSE](LICENSE) และรายการเปลี่ยนแปลงใน [CHANGELOG.md](CHANGELOG.md)
