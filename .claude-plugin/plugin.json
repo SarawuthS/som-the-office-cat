@@ -1,1 +1,1 @@
-{ "name": "som-the-office-cat", "version": "0.1.0", "description": "A pane with a pixel office cat that acts out what the session is doing", "types": "./types/index.d.ts" }
+{ "name": "som-the-office-cat", "version": "0.2.0", "description": "A pane with a pixel office cat that acts out what the session is doing", "types": "./types/index.d.ts" }
