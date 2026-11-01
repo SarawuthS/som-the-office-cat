@@ -1,0 +1,5 @@
+{
+  "name": "som-the-office-cat",
+  "owner": { "name": "SarawuthS" },
+  "plugins": [{ "name": "som-the-office-cat", "source": "./" }]
+}
