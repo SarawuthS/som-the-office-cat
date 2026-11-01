@@ -120,6 +120,12 @@ const resetLabel = (iso: string | undefined) => {
 // Header colour: amber from 70 %, red from 85 % (of the window or a limit).
 const level = (percent: number) => (percent >= 85 ? 'error' : percent >= 70 ? 'warning' : undefined)
 
+// At most one decimal: the usage endpoint can answer 1.8823.
+const pct = (percent: number) => `${+percent.toFixed(1)}%`
+
+const SYMBOLS: Record<string, string> = { USD: '$', EUR: '€', GBP: '£', JPY: '¥', THB: '฿' }
+const money = (n: number, currency: string) => `${SYMBOLS[currency] ?? `${currency} `}${n.toFixed(2)}`
+
 const NAME_CHARS = 20
 const short = (name: string) => (name.length > NAME_CHARS ? `${name.slice(0, NAME_CHARS - 1)}…` : name)
 
@@ -287,7 +293,7 @@ export const register: Register = on => {
                   <Box flexDirection="column" marginTop={1}>
                     <Box flexDirection="row" justifyContent="space-between">
                       <Text size="footnote" color={level(l.percent)}>
-                        {LIMIT_NAMES[l.kind] ?? l.kind} {l.percent}%
+                        {LIMIT_NAMES[l.kind] ?? l.kind} {pct(l.percent)}
                       </Text>
                       <Text size="footnote" dimColor>
                         {l.resetsAt === undefined ? '' : `resets ${resetLabel(l.resetsAt)}`}
@@ -303,9 +309,18 @@ export const register: Register = on => {
               </Box>
             )}
             {ctx.costUsd !== undefined && (
-              <Box flexDirection="row" justifyContent="space-between" marginTop={1}>
-                <Text bold>Session cost</Text>
-                <Text>${ctx.costUsd.toFixed(2)}</Text>
+              <Box flexDirection="column" marginTop={1}>
+                <Box flexDirection="row" justifyContent="space-between">
+                  <Text bold>Session cost</Text>
+                  <Text>{money(ctx.costUsd, 'USD')}</Text>
+                </Box>
+                {/* The figure is priced at API list prices (as `/cost` totals
+                    it); on a plan with usage windows that is not the bill. */}
+                {ctx.limits.length > 0 && (
+                  <Text size="footnote" dimColor>
+                    at API prices; your plan is not billed this
+                  </Text>
+                )}
               </Box>
             )}
             {ctx.spend !== undefined && (
@@ -313,7 +328,7 @@ export const register: Register = on => {
                 <Box flexDirection="row" justifyContent="space-between">
                   <Text bold color={level(ctx.spend.percent)}>Monthly spend</Text>
                   <Text>
-                    ${ctx.spend.used.toFixed(2)} / ${ctx.spend.limit.toFixed(2)} ({ctx.spend.percent}%)
+                    {money(ctx.spend.used, ctx.spend.currency)} / {money(ctx.spend.limit, ctx.spend.currency)} ({pct(ctx.spend.percent)})
                   </Text>
                 </Box>
                 <Box flexDirection="row" width="100%" height={1} marginTop={1}>

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.1 — 2026-11-01
+
+- Percentages show at most one decimal; Monthly spend uses the account's currency symbol.
+- Session cost says, on subscription plans, that it is priced at API rates and not billed.
+- `tsconfig.json`, `.gitignore`, a CI check (`validate` and `test` on every push) and a Troubleshooting section in the README.
+
 ## 0.2.0 — 2026-11-01
 
 - **Session cost:** what the session has cost so far, in US dollars.
