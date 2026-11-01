@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.0 — 2026-11-01
+
+- **Settings** (`userConfig`): pane language, amber/red thresholds, the cat's alarm, and which sections show. Turning Monthly spend off stops the usage endpoint being asked.
+- **Thai** pane text (`language: th`).
+- **New poses:** `delegate` (a paper plane while a subagent works) and an alarm layer (wide eyes, sweat drop, red !) once context passes `alarmAt` or auto-compact is due.
+- **Your own character:** `tools/build_sprite.py --character <file>` reads the picture, eyes, paws and overlay offsets from a JSON file; Som's is `characters/som.json`. README has the steps.
+- Demo GIF shows the new poses.
+
 ## 0.2.1 — 2026-11-01
 
 - Percentages show at most one decimal; Monthly spend uses the account's currency symbol.

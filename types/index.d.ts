@@ -17,7 +17,7 @@ export type ContextStats = {
   spend?: MonthlySpend
 }
 export type MonthlySpend = { used: number; limit: number; percent: number; currency: string }
-export type Pose = 'idle' | 'think' | 'read' | 'edit' | 'bash' | 'done'
+export type Pose = 'idle' | 'think' | 'read' | 'edit' | 'bash' | 'delegate' | 'done'
 
 declare module 'claude-code' {
   interface PluginState {

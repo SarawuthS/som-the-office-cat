@@ -1,0 +1,30 @@
+{
+  "name": "Som",
+  "image": "assets/office-cat.png",
+  "eyes": {
+    "left": [55, 35],
+    "right": [74, 35],
+    "skin": "#f0bf82",
+    "ink": "#2b2325",
+    "lens": "#fad7a4",
+    "look": 2
+  },
+  "paws": {
+    "keyboard": [86, 80, 108, 97],
+    "mouse_paw": [50, 90, 70, 106],
+    "mouse": [48, 98, 72, 112],
+    "fur": { "min_red": 140, "red_minus_blue": 50 }
+  },
+  "offsets": {
+    "steam": [0, 0],
+    "bubble": [0, 0],
+    "magnifier": [0, 0],
+    "keys": [0, 0],
+    "screen": [0, 0],
+    "led": [0, 0],
+    "sparkles": [0, 0],
+    "plane": [0, 0],
+    "sweat": [0, 0],
+    "exclaim": [0, 0]
+  }
+}

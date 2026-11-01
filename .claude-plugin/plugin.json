@@ -1,11 +1,76 @@
 {
   "name": "som-the-office-cat",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "A pixel office cat in a pane beside the chat that acts out what Claude is doing, with live context, usage-limit and cost statistics underneath",
-  "author": { "name": "SarawuthS", "url": "https://github.com/SarawuthS" },
+  "author": {
+    "name": "SarawuthS",
+    "url": "https://github.com/SarawuthS"
+  },
   "homepage": "https://github.com/SarawuthS/som-the-office-cat",
   "repository": "https://github.com/SarawuthS/som-the-office-cat",
   "license": "MIT",
-  "keywords": ["pane", "pixel-art", "cat", "pet", "context-window", "usage", "cost"],
-  "types": "./types/index.d.ts"
+  "keywords": [
+    "pane",
+    "pixel-art",
+    "cat",
+    "pet",
+    "context-window",
+    "usage",
+    "cost"
+  ],
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "language": {
+      "type": "string",
+      "title": "Language",
+      "description": "Language of the pane's text: en (English) or th (ภาษาไทย)",
+      "options": [
+        "en",
+        "th"
+      ],
+      "default": "en"
+    },
+    "warnAt": {
+      "type": "number",
+      "title": "Amber at %",
+      "description": "Context, usage-limit or spend % at which a figure turns amber",
+      "default": 70
+    },
+    "alarmAt": {
+      "type": "number",
+      "title": "Red at %",
+      "description": "% at which a figure turns red, and the cat sweats when context reaches it",
+      "default": 85
+    },
+    "catAlarm": {
+      "type": "boolean",
+      "title": "Cat alarm",
+      "description": "Som looks alarmed when context is nearly full",
+      "default": true
+    },
+    "showCategories": {
+      "type": "boolean",
+      "title": "Show context categories",
+      "description": "One row per context category under the bar",
+      "default": true
+    },
+    "showUsageLimits": {
+      "type": "boolean",
+      "title": "Show usage limits",
+      "description": "5-hour and 7-day limits on subscription accounts",
+      "default": true
+    },
+    "showSessionCost": {
+      "type": "boolean",
+      "title": "Show session cost",
+      "description": "What the session has cost at API prices",
+      "default": true
+    },
+    "showMonthlySpend": {
+      "type": "boolean",
+      "title": "Show monthly spend",
+      "description": "Extra-usage spend against its cap; off means the usage endpoint is never asked",
+      "default": true
+    }
+  }
 }

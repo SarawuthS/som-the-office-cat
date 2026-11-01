@@ -19,16 +19,19 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, 'assets', 'demo.gif')
 SIZE = 256          # cat picture, pixels
 STEP = 0.1          # seconds between frames
-SECONDS = {'idle': 2.0, 'think': 2.0, 'read': 2.0, 'edit': 2.0, 'bash': 2.0, 'done': 2.5}
+SECONDS = {'idle': 2.0, 'think': 2.0, 'read': 2.0, 'edit': 2.0, 'bash': 2.0, 'delegate': 2.0, 'alarm': 2.0, 'done': 2.5}
 LABELS = {
     'idle': 'idle', 'think': 'thinking', 'read': 'reading files', 'edit': 'editing code',
-    'bash': 'running a command', 'done': 'done!',
+    'bash': 'running a command', 'delegate': 'subagent at work',
+    'alarm': 'context nearly full!', 'done': 'done!',
 }
 BG = (246, 243, 238)
 INK = (60, 52, 46)
 
 
 def svg(pose):
+    if pose == 'alarm':  # the alarm layer over a working pose, as the pane stacks it
+        return svg('edit').replace('</svg>', b.ALARM + '</svg>')
     body = b.base_paths() + ((b.look_right() + b.hands()) if pose in b.WORKING_POSES else '') + b.POSES[pose] + b.COMMON
     return (f'<svg id="s" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {b.N} {b.N}" width="{SIZE}" height="{SIZE}" '
             f'shape-rendering="crispEdges">{body}</svg>')

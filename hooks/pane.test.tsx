@@ -56,3 +56,37 @@ test('the cat and the context stats draw on every surface', async ($, on) => {
     await ui.unmount()
   }
 })
+
+const seed = (value: unknown) => (_: unknown, e: { key: string }) =>
+  e.key === 'context' ? { value: { value: { shape: 'context-4', value }, version: 1 } } : { value: { value: undefined, version: 0 } }
+
+test('Thai text, and the sections settings turn off', { options: { language: 'th', showCategories: false, showMonthlySpend: false } }, async ($, on) => {
+  on('state.get', seed(CONTEXT))
+  for (const surface of ['terminal', 'desktop'] as const) {
+    const ui = await $.ui.mount({ ...PANE, surface })
+    expect((await ui.find({ type: 'Text', text: /ใช้ context ไป/ }))?.text).toBe('ใช้ context ไป 30%')
+    expect((await ui.find({ type: 'Text', text: /7 วัน/ }))?.text).toContain('88%')
+    expect((await ui.find({ type: 'Text', text: /ค่าใช้จ่าย session/ }))?.text).toBeDefined()
+    expect(await ui.find({ type: 'Text', text: /Messages/ })).toBeUndefined()
+    expect(await ui.find({ type: 'Text', text: /\$100\.00/ })).toBeUndefined()
+    await ui.unmount()
+  }
+})
+
+test('the alarm layer shows once context passes alarmAt', async ($, on) => {
+  let percent = 90
+  on('state.get', (_, e) => seed({ ...CONTEXT, percent })(_, e))
+  for (const [p, display] of [[90, 'flex'], [30, 'none']] as const) {
+    percent = p
+    const ui = await $.ui.mount({ ...PANE, surface: 'desktop' })
+    expect((await ui.find({ type: 'Box', key: 'layer-alarm' }))?.props.display).toBe(display)
+    await ui.unmount()
+  }
+})
+
+test('catAlarm off keeps the alarm hidden', { options: { catAlarm: false } }, async ($, on) => {
+  on('state.get', seed({ ...CONTEXT, percent: 95 }))
+  const ui = await $.ui.mount({ ...PANE, surface: 'desktop' })
+  expect((await ui.find({ type: 'Box', key: 'layer-alarm' }))?.props.display).toBe('none')
+  await ui.unmount()
+})
