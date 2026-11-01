@@ -2,6 +2,8 @@
 
 A Claude Code mod: a pane beside the chat where Som, a pixel office cat in glasses, acts out what Claude is doing, with your session's context statistics underneath.
 
+<img src="assets/screenshot.png" alt="Som the office cat in the Claude desktop app, with context statistics and usage limits" width="320">
+
 ## What it shows
 
 - **Som's poses** follow the session: `think` (thought bubble), `read` (magnifier, for Read/Grep/Glob/WebFetch/WebSearch), `edit` (keys and code light up, for Edit/Write), `bash` (terminal on the tablet), `done` (happy eyes and sparkles for 8 s after a turn ends), then `idle`. While working Som looks at the monitor, types and moves the mouse. Som blinks and the coffee steams in every pose.
@@ -35,6 +37,7 @@ The pane opens when a session starts; if it does not, type `/som-the-office-cat`
 - `hooks/register.tsx` — hooks, state and the pane. `types/index.d.ts` — the state contract.
 - `hooks/sprite.ts` — generated SVG layers. Regenerate from `assets/office-cat.png` with `python3 tools/build_sprite.py [--debug <dir>]` (needs Pillow); change the overlays in the script, not `sprite.ts`.
 - `hooks/pane.test.tsx` — mounts the pane on every surface with seeded statistics.
+- `assets/office-cat.png` — Som's original picture, made with an AI image tool.
 
 ```
 claude plugin validate .
@@ -50,6 +53,8 @@ Notes from building it, in case you change the pane: Box sizes are character cel
 # ส้ม แมวออฟฟิศ (ภาษาไทย)
 
 mod สำหรับ Claude Code: pane ข้างแชทที่มี "ส้ม" แมวออฟฟิศพิกเซลใส่แว่น ขยับท่าตามสิ่งที่ Claude กำลังทำ และแสดงสถิติ context ของ session ไว้ด้านล่าง
+
+<img src="assets/screenshot.png" alt="ส้ม แมวออฟฟิศ ในแอป Claude Desktop พร้อมสถิติ context และ usage limits" width="320">
 
 ## สิ่งที่แสดง
 
@@ -84,6 +89,7 @@ pane จะเปิดเองเมื่อเริ่ม session ถ้า
 - `hooks/register.tsx`: hook, state และการวาด pane ส่วน `types/index.d.ts` คือ contract ของ state
 - `hooks/sprite.ts`: ชั้นภาพ SVG ที่สร้างอัตโนมัติ สร้างใหม่จาก `assets/office-cat.png` ด้วย `python3 tools/build_sprite.py [--debug <dir>]` (ต้องมี Pillow) ถ้าจะแก้ท่า ให้แก้ในสคริปต์ ไม่ใช่ใน `sprite.ts`
 - `hooks/pane.test.tsx`: วาด pane บนทุก surface ด้วยสถิติจำลอง
+- `assets/office-cat.png`: ภาพต้นฉบับของส้ม สร้างด้วยเครื่องมือสร้างภาพ AI
 
 ```
 claude plugin validate .
