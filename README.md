@@ -30,6 +30,8 @@ The picture needs the Claude desktop app (or another surface that draws SVG); in
 
 ## Install
 
+Needs Claude Code **2.1.304 or newer** (`claude --version`): mods are new, and an older release can install the plugin without ever opening the pane. Update with `claude update` (the desktop app updates itself).
+
 At the prompt of a Claude Code terminal session:
 
 ```
@@ -66,7 +68,7 @@ Run a working copy with `claude --plugin-dir <this folder>`.
 
 ## Troubleshooting
 
-- **No pane.** Type `/som-the-office-cat`. If the command is unknown, check the plugin is installed and enabled (`claude plugin list`), then start a new session.
+- **No pane.** Check `claude --version` is 2.1.304 or newer. Then type `/som-the-office-cat`. If the command is unknown, check the plugin is installed and enabled (`claude plugin list`), then start a new session.
 - **No cat, only numbers.** The picture draws in the desktop app; a terminal shows the statistics only.
 - **An update does not arrive.** Run `claude plugin marketplace update som-the-office-cat`, then `claude plugin update som-the-office-cat@som-the-office-cat`, and restart Claude. Installs follow the `version` in `plugin.json`, so a release always raises it.
 - **No Usage limits.** Only subscription accounts have 5-hour/7-day windows; accounts without them (such as Enterprise) can show Monthly spend instead.
@@ -106,6 +108,8 @@ mod สำหรับ Claude Code: pane ข้างแชทที่มี "�
 
 ## ติดตั้ง
 
+ต้องใช้ Claude Code **2.1.304 ขึ้นไป** (ดูด้วย `claude --version`) เพราะ mod เป็นความสามารถใหม่ เวอร์ชันเก่าอาจติดตั้ง plugin ได้แต่ไม่เปิด pane อัปเดตด้วย `claude update` (แอป Desktop อัปเดตตัวเอง)
+
 ในช่องพิมพ์ของ Claude Code แบบ terminal:
 
 ```
@@ -142,7 +146,7 @@ npx -p typescript tsc -p .
 
 ## แก้ปัญหา
 
-- **ไม่มี pane:** พิมพ์ `/som-the-office-cat` ถ้าไม่รู้จักคำสั่งนี้ ให้เช็คว่าติดตั้งและเปิดใช้ plugin แล้ว (`claude plugin list`) แล้วเริ่ม session ใหม่
+- **ไม่มี pane:** เช็คว่า `claude --version` เป็น 2.1.304 ขึ้นไป แล้วพิมพ์ `/som-the-office-cat` ถ้าไม่รู้จักคำสั่งนี้ ให้เช็คว่าติดตั้งและเปิดใช้ plugin แล้ว (`claude plugin list`) แล้วเริ่ม session ใหม่
 - **ไม่มีแมว มีแต่ตัวเลข:** ภาพแมววาดได้เฉพาะในแอป Desktop ใน terminal จะเห็นแค่สถิติ
 - **อัปเดตแล้วไม่ได้ของใหม่:** รัน `claude plugin marketplace update som-the-office-cat` ตามด้วย `claude plugin update som-the-office-cat@som-the-office-cat` แล้วเปิด Claude ใหม่ การติดตั้งดูจาก `version` ใน `plugin.json` ทุก release จึงต้องเพิ่มเลขเวอร์ชัน
 - **ไม่มี Usage limits:** มีเฉพาะบัญชี subscription ที่มีรอบ 5 ชั่วโมงและ 7 วัน บัญชีที่ไม่มีรอบเหล่านี้ (เช่น Enterprise) จะแสดง Monthly spend แทนได้
