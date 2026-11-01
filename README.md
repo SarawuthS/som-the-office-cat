@@ -4,11 +4,7 @@
 
 A Claude Code mod: a pane beside the chat where Som, a pixel office cat in glasses, acts out what Claude is doing, with your session's context, usage limits and cost underneath.
 
-<p>
-<img src="assets/demo.gif" alt="Som the office cat going through its poses: idle, thinking, reading files, editing code, running a command, done" width="256">
-&nbsp;
-<img src="assets/screenshot.png" alt="Som the office cat in the Claude desktop app, with context statistics and usage limits" width="256">
-</p>
+![Som the office cat going through its poses: idle, thinking, reading files, editing code, running a command, done](assets/demo.gif) ![Som the office cat in the Claude desktop app, with context statistics and usage limits](assets/screenshot.png)
 
 ```
 /plugin install som-the-office-cat --marketplace SarawuthS/som-the-office-cat
@@ -112,11 +108,7 @@ MIT, for the code and for Som's picture alike. See [LICENSE](LICENSE). Changes a
 
 mod สำหรับ Claude Code: pane ข้างแชทที่มี "ส้ม" แมวออฟฟิศพิกเซลใส่แว่น ขยับท่าตามสิ่งที่ Claude กำลังทำ และแสดงสถิติ context, usage limits และค่าใช้จ่ายของ session ไว้ด้านล่าง
 
-<p>
-<img src="assets/demo.gif" alt="ส้ม แมวออฟฟิศ เปลี่ยนท่า: idle, คิด, อ่านไฟล์, แก้โค้ด, รันคำสั่ง, เสร็จ" width="256">
-&nbsp;
-<img src="assets/screenshot.png" alt="ส้ม แมวออฟฟิศ ในแอป Claude Desktop พร้อมสถิติ context และ usage limits" width="256">
-</p>
+![ส้ม แมวออฟฟิศ เปลี่ยนท่า: idle, คิด, อ่านไฟล์, แก้โค้ด, รันคำสั่ง, เสร็จ](assets/demo.gif) ![ส้ม แมวออฟฟิศ ในแอป Claude Desktop พร้อมสถิติ context และ usage limits](assets/screenshot.png)
 
 ทดสอบแล้วกับบัญชี subscription (macOS) และบัญชี Enterprise (Windows)
 
