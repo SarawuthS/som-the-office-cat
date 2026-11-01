@@ -9,12 +9,14 @@ jobs:
   mod:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
-          node-version: 20
-      # Neither command signs in or calls the API.
-      - run: npm install -g @anthropic-ai/claude-code
+          node-version: 22
+      # Mods need a recent Claude Code: an unpinned install once gave
+      # 2.1.197, which has no `plugin test` and ignores `types`.
+      # Neither command below signs in or calls the API.
+      - run: npm install -g @anthropic-ai/claude-code@stable
       - run: claude --version
       - run: claude plugin validate .
       - run: claude plugin test .
